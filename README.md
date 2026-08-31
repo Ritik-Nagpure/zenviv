@@ -1,387 +1,101 @@
 # Zenviv
 
-> **The Social Fitness Ecosystem**
+<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
-Zenviv is a modern fitness-first social platform designed to connect fitness enthusiasts, creators, trainers, brands, and communities under one unified ecosystem.
+✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
 
-Unlike a traditional fitness application, Zenviv acts as the **host platform** that brings together multiple specialized applications into a seamless experience. Users authenticate once using **UniPass** and gain access to every integrated service without creating additional accounts.
+[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/next?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
 
----
+## Run tasks
 
-# Vision
+To run the dev server for your app, use:
 
-Our mission is to build a centralized platform where users can
-
-- Create their fitness identity
-- Build their personal influence
-- Connect with fitness enthusiasts
-- Join and manage communities
-- Attend webinars and live events
-- Purchase fitness merchandise
-- Access multiple partner applications using one account
-
----
-
-# Core Features
-
-- User Profiles
-- Fitness Communities
-- Social Networking
-- Community Management
-- Creator Profiles
-- Follow & Connect
-- News Feed
-- Notifications
-- Events
-- Merchandise Store
-- Webinars
-- Live Sessions
-- Chat Rooms
-- Single Sign-On
-- Micro Frontend Architecture
-
----
-
-# Platform Overview
-
-```text
-                  +----------------------+
-                  |      UniPass         |
-                  |  Identity Provider   |
-                  +----------+-----------+
-                             |
-                      Authentication
-                             |
-                             ▼
-+------------------------------------------------------------+
-|                         ZENVIV                             |
-|------------------------------------------------------------|
-| Social Platform                                            |
-| Communities                                                |
-| Profiles                                                   |
-| Feed                                                       |
-| Notifications                                              |
-| Events                                                     |
-| Backend APIs                                               |
-| Database                                                   |
-+------------+----------------------+------------------------+
-             |                      |
-             |                      |
-             ▼                      ▼
-        Blycko MFE             Habla MFE
-      Merchandise Store      Webinar & Chat
+```sh
+npx nx dev zenviv
 ```
 
----
+To create a production bundle:
 
-# Architecture
-
-Zenviv is composed of four independent systems.
-
-## 1. Zenviv
-
-The primary application.
-
-Responsibilities
-
-- Frontend Host Application
-- Backend APIs
-- Business Logic
-- User Profiles
-- Communities
-- Feed
-- Notifications
-- Database
-- API Gateway
-
-Zenviv owns all business data.
-
----
-
-## 2. UniPass
-
-UniPass is the centralized Identity Provider (IdP).
-
-Responsibilities
-
-- User Authentication
-- Login
-- Registration
-- Password Management
-- Session Management
-- Access Tokens
-- Refresh Tokens
-- OAuth Providers
-
-UniPass **does not** store application resources or business data.
-
-It only stores identity information required to authenticate users.
-
----
-
-## 3. Blycko
-
-Blycko is an independent React application exposed as a **Micro Frontend**.
-
-Responsibilities
-
-- Merchandise Store UI
-- Shopping Experience
-- Product Browsing
-- Cart UI
-
-Blycko does not own business data.
-
-Every request is forwarded to Zenviv APIs.
-
----
-
-## 4. Habla
-
-Habla is an independent React application exposed as a **Micro Frontend**.
-
-Responsibilities
-
-- Chat
-- Live Events
-- Webinars
-- Community Communication
-
-Habla provides the user experience while Zenviv stores all application data.
-
----
-
-# Authentication
-
-Authentication is handled by UniPass.
-
-```text
-User
-
-   │
-
-   ▼
-
-UniPass
-
-   │
-
-   ▼
-
-Zenviv
-
-   │
-
-   ├────────► Blycko
-
-   │
-
-   └────────► Habla
+```sh
+npx nx build zenviv
 ```
 
-Users authenticate once and can seamlessly access every application within the ecosystem.
+To see all available targets to run for a project, run:
 
----
-
-# Data Ownership
-
-Business data is always owned by the application that provides the business capability.
-
-For the current ecosystem:
-
-- User Profiles → Zenviv Database
-- Communities → Zenviv Database
-- Merchandise Orders → Zenviv Database
-- Webinar Registrations → Zenviv Database
-- Chat Metadata → Zenviv Database
-- Notifications → Zenviv Database
-
-Partner applications never communicate directly with databases.
-
----
-
-# Request Flow
-
-Every request follows the same architecture.
-
-```text
-Browser
-
-      │
-
-      ▼
-
-Next.js Host (BFF)
-
-      │
-
-      ▼
-
-API Gateway
-
-      │
-
-      ▼
-
-Microservices
-
-      │
-
-      ▼
-
-Database
+```sh
+npx nx show project zenviv
 ```
 
-This ensures
+These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
 
-- Centralized Authentication
-- Logging
-- Authorization
-- Validation
-- Monitoring
-- Security
-- Consistent API Contracts
+[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 
----
+## Add new projects
 
-# Micro Frontend Architecture
+While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
 
-Zenviv uses a host-remote architecture.
+Use the plugin's generator to create new projects.
 
-```text
-                   Next.js Host
+To generate a new application, use:
 
-      ┌───────────────┼────────────────┐
-
-      ▼               ▼                ▼
-
-  Zenviv UI      Blycko MFE      Habla MFE
+```sh
+npx nx g @nx/next:app demo
 ```
 
-The host application controls
+To generate a new library, use:
 
-- Authentication
-- Routing
-- Layout
-- Navigation
-- Theme
-- API Communication
-
-Remote applications provide feature-specific user interfaces.
-
----
-
-# Technology Stack
-
-## Frontend
-
-- Next.js 16
-- React 19
-- TypeScript
-- Tailwind CSS
-- Module Federation Host
-
----
-
-## Remote Applications
-
-- React
-- Vite
-- Module Federation
-
----
-
-## Backend
-
-- Node.js
-- Express.js
-- Microservices
-- API Gateway
-
----
-
-## Authentication
-
-- UniPass (SSO)
-
----
-
-## Database
-
-- PostgreSQL
-
----
-
-# Initial Frontend Structure
-
-```text
-src
-│
-├── app
-│   ├── (marketing)
-│   ├── (auth)
-│   ├── (dashboard)
-│   ├── api
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── globals.css
-│
-├── components
-│   ├── ui
-│   ├── layout
-│   ├── navigation
-│   ├── shared
-│   └── feature
-│
-├── features
-│   ├── auth
-│   ├── profile
-│   ├── communities
-│   ├── notifications
-│   ├── feed
-│   ├── merchandise
-│   └── webinars
-│
-├── microfrontends
-│   ├── blycko
-│   ├── habla
-│   └── shared
-│
-├── services
-│   ├── api
-│   ├── auth
-│   ├── users
-│   └── communities
-│
-├── hooks
-├── providers
-├── store
-├── types
-├── lib
-├── utils
-├── constants
-└── config
+```sh
+npx nx g @nx/react:lib mylib
 ```
 
----
+You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
 
-# Project Principles
+[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 
-- Mobile-first
-- Feature-first architecture
-- Modular design
-- Reusable UI components
-- Type-safe development
-- Centralized authentication
-- Backend for Frontend (BFF)
-- Microservice architecture
-- Micro Frontend architecture
-- Scalable by default
+## Set up CI!
 
----
+### Step 1
 
-# Project Status
+To connect to Nx Cloud, run the following command:
 
-🚧 Zenviv is currently under active development.
+```sh
+npx nx connect
+```
 
-The project begins by building the host application, establishing the design system, implementing authentication through UniPass, integrating remote applications using Module Federation, and exposing a scalable Backend for Frontend (BFF) that communicates with the Zenviv microservices.
+Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+
+- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+### Step 2
+
+Use the following command to configure a CI workflow for your workspace:
+
+```sh
+npx nx g ci-workflow
+```
+
+[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+## Install Nx Console
+
+Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+
+[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+## Useful links
+
+Learn more:
+
+- [Learn more about this workspace setup](https://nx.dev/nx-api/next?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
+- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+And join the Nx community:
+- [Discord](https://go.nx.dev/community)
+- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
+- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
+- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
